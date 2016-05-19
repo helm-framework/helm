@@ -1,0 +1,36 @@
+front:
+  build: ./dockerfiles/nginx
+  ports:
+    - "80:80"
+  links:
+    - {{name}}
+
+{{name}}:
+  build: ./dockerfiles/prod
+  command: -jar /app/app.jar
+  links:
+    - db
+  environment:
+    - DB_HOST=db
+    - DB_USER=postgres
+    - DB_NAME={{name}}
+    - DB_PASS={{db-pass}}
+    - MAILGUN_APIKEY=YOUR-KEY
+    - MAILGUN_DOMAIN=YOUR-DOMAIN
+    - DOMAIN=localhost
+    - STRIPE_AUTH=YOUR-AUTH    
+
+db:
+  image: postgres:9.4.6
+  volumes_from:
+    - data
+  ports:
+    - "5432:5432"
+  environment:
+    - POSTGRES_PASSWORD={{db-pass}}
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB={{name}}
+
+data:
+  image: postgres:9.4.6
+  command: /bin/true
