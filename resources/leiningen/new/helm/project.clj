@@ -51,14 +51,14 @@
                    :plugins [[lein-figwheel "0.5.2"]
                              [refactor-nrepl "2.2.0"]
                              [cider/cider-nrepl "0.12.0-SNAPSHOT"]]
-                   :repl-options {:init-ns cal.server :port 4001 :host "0.0.0.0"}
+                   :repl-options {:init-ns {{name}}.server :port 4001 :host "0.0.0.0"}
                    :cljsbuild {:builds {:app {:figwheel true}}}}
 
              :uberjar {:hooks [leiningen.cljsbuild]
                        :env {:production true}
                        :aot :all
                        :uberjar-exclusions [#"goog"]
-                       :main cal.server
+                       :main {{name}}.server
                        :cljsbuild {:builds {:app
                                             {:compiler
                                              {:optimizations :advanced
